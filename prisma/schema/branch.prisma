@@ -1,0 +1,8 @@
+
+model Branch {
+  id    String @id @default(auto()) @map("_id") @db.ObjectId
+  name  String
+  code  String
+  User  User[]
+  Property Property[]
+}

@@ -1,0 +1,10 @@
+
+model Message {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  userId    String   @db.ObjectId
+  chatId    String   @db.ObjectId
+  text      String
+  createdAt DateTime @default(now())
+  User      User     @relation(fields: [userId], references: [id])
+  Chat      Chat     @relation(fields: [chatId], references: [id])
+}

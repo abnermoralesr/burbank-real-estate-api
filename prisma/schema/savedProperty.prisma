@@ -1,0 +1,9 @@
+
+model SavedProperty {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  userId    String   @db.ObjectId
+  propertyId String  @db.ObjectId
+  createdAt DateTime @default(now())
+  User      User     @relation(fields: [userId], references: [id])
+  Property  Property @relation(fields: [propertyId], references: [id])
+}

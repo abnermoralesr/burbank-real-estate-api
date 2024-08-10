@@ -1,8 +1,9 @@
 import bcrypt from "bcrypt";
-import prisma from "../core/prisma.js";
-import serverCodes from "../core/codes.js";
-import messageTemplate from "../core/messages.js";
+import prisma from "#core/prisma.js";
+import serverCodes from "#core/codes.js";
+import messageTemplate from "#core/messages.js";
 import jwt from "jsonwebtoken";
+import adminUsers from "#core/adminTypes.js";
 
 export const register = async (req, res) => {
     const {
@@ -32,13 +33,17 @@ export const register = async (req, res) => {
     }
     
 }
+
 export const login = async (req, res) => {
-    const {username, password} = req.body;
+    const { username, password, email } = req.body;
+
+    clearCookies(res);
 
     try {
         const hashedPassword = await bcrypt.hash(password, 10);
-        const user = await prisma.user.findUnique({
-            where:{OR: [{username}, {email}]}
+        const user = await prisma.user.findFirst({
+            where: { OR: [{ username }, { email }] },
+            where: {status: 1}
         });
 
         if (!user) return res.status(serverCodes.notAllowed).json({message: messageTemplate[serverCodes.notAllowed]});
@@ -47,12 +52,15 @@ export const login = async (req, res) => {
 
         if (!validPassword) return res.status(serverCodes.notAllowed).json({message: messageTemplate[serverCodes.notAllowed]});
 
-
         const maxAge = 1000 * 60 * 60 * 24 * 7;
         const token = jwt.sign(
             {
                 id: user.id,
-                type: user.type
+                type: user.type,
+                branch: user.branchId,
+                status: user.status,
+                isAdmin: adminUsers.includes(user.type),
+                rootUser: user.type == 0
             },
             process.env.JWT_SECRET_KEY,
             {
@@ -60,17 +68,30 @@ export const login = async (req, res) => {
             }
         );
 
-        //res.setHeader("Set-Cookie", "test=" + "myValue").json("success");
+        const {
+            password: userPassword,
+            branchId,
+            type,
+            status,
+            ...userInfo
+        } = user;
+
         res.cookie("token", token, {
             httpOnly: true,
             secure: process.env.PRODUCTION,
             maxAge
-        }).status(serverCodes.success).json({message: 'Login' + messageTemplate[serverCodes.success]});
+        }).status(serverCodes.success).json(userInfo);
     } catch (error) {
         res.status(serverCodes.error).json({message: messageTemplate[serverCodes.error] + 'login!'});
         console.log(error);
     }
 }
+
 export const logout = (req, res) => {
-    res.clearCookie("token").status(serverCodes.success).json({message: 'Logout' + messageTemplate[serverCodes.success]});
+    clearCookies(res);
+    res.status(serverCodes.success).json({ message: 'Logout' + messageTemplate[serverCodes.success] });
+}
+
+function clearCookies(res) {
+    res.clearCookie("token");
 }

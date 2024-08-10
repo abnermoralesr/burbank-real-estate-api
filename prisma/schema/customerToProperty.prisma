@@ -1,0 +1,8 @@
+
+model CustomerToProperty {
+  id         String   @id @default(auto()) @map("_id") @db.ObjectId
+  customerId String   @db.ObjectId
+  propertyId String   @db.ObjectId
+  Customer   Customer @relation(fields: [customerId], references: [id])
+  Property   Property @relation(fields: [propertyId], references: [id])
+}

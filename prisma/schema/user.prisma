@@ -1,0 +1,19 @@
+model User {
+    id               String             @id @default(auto()) @map("_id") @db.ObjectId
+    branchId         String             @db.ObjectId
+    username         String             @unique
+    email            String             @unique
+    password         String
+    type             Int
+    avatar           String?
+    status           Int?               @default(1)
+    createdAt        DateTime           @default(now())
+    Branch           Branch             @relation(fields: [branchId], references: [id])
+    CustomerActivity CustomerActivity[]
+    ClosedProperty   ClosedProperty[]
+    SavedProperty    SavedProperty[]
+    PropertiesOwned     Property[]            @relation("UserOwner")
+    PropertiesAssigned  Property[]            @relation("UserAssigned")
+    Chat             Chat[]
+    Message          Message[]
+}

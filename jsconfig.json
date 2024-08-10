@@ -1,0 +1,12 @@
+{
+  "compilerOptions": {
+   "baseUrl": ".",
+   "paths": {
+     "#controllers/*": ["./controllers/*"],
+     "#core/*": ["./core/*"],
+     "#middleware/*": ["./middleware/*"],
+     "#prisma/*": ["./prisma/*"],
+     "#routes/*": ["./routes/*"]
+   }
+ }
+}

@@ -1,0 +1,13 @@
+
+model CustomerActivity {
+  id           String   @id @default(auto()) @map("_id") @db.ObjectId
+  customerId   String   @db.ObjectId
+  userId       String   @db.ObjectId
+  propertyId   String   @db.ObjectId
+  activity     Int
+  actionDate   DateTime
+  createdAt    DateTime @default(now())
+  User         User     @relation(fields: [userId], references: [id])
+  Customer     Customer @relation(fields: [customerId], references: [id])
+  Property     Property @relation(fields: [propertyId], references: [id])
+}

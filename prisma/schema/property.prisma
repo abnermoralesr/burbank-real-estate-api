@@ -1,0 +1,47 @@
+model Property {
+  id                  String                @id @default(auto()) @map("_id") @db.ObjectId
+  branchId            String                @db.ObjectId
+  landlordId          String                @db.ObjectId
+  userId              String                @db.ObjectId
+  userIdAssigned      String                @db.ObjectId
+  consecutive         Int
+  price               Float
+  currency            String
+  commission          Float
+  title               String
+  description         String
+  descriptionPrivate  String
+  images              String[]              @default([])
+  street              String
+  street2             String
+  city                String
+  state               String
+  zipCode             String
+  country             String
+  latitude            String?
+  longitude           String?
+  type                Type
+  rent                Boolean
+  exclusive           Boolean
+  createdAt           DateTime              @default(now())
+  updatedAt           DateTime              @updatedAt
+  status              Int                   @default(1)
+  Branch              Branch                @relation(fields: [branchId], references: [id])
+  Landlord            Landlord              @relation(fields: [landlordId], references: [id])
+  User                User                  @relation("UserOwner", fields: [userId], references: [id])
+  UserAssigned        User                  @relation("UserAssigned", fields: [userIdAssigned], references: [id])
+  CustomerActivity    CustomerActivity[]
+  CustomerToProperty  CustomerToProperty[]
+  ClosedProperty      ClosedProperty[]
+  PropertyDetail      PropertyDetail[]
+  PropertySocialMedia PropertySocialMedia[]
+  SavedProperty       SavedProperty[]
+}
+
+enum Type {
+  condo
+  house
+  land
+  commercial
+  office
+}

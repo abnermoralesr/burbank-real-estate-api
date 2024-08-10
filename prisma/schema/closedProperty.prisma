@@ -1,0 +1,15 @@
+
+model ClosedProperty {
+  id             String   @id @default(auto()) @map("_id") @db.ObjectId
+  customerId     String   @db.ObjectId
+  propertyId     String   @db.ObjectId
+  userId         String   @db.ObjectId
+  externalUserId String
+  date           DateTime
+  amount         Float
+  commissionId   String   @db.ObjectId
+  Commission     Commission @relation(fields: [commissionId], references: [id])
+  Customer       Customer @relation(fields: [customerId], references: [id])
+  User           User     @relation(fields: [userId], references: [id])
+  Property       Property @relation(fields: [propertyId], references: [id])
+}

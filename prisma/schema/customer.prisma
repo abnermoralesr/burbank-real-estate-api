@@ -1,0 +1,12 @@
+
+model Customer {
+  id              String             @id @default(auto()) @map("_id") @db.ObjectId
+  name            String
+  email           String
+  phone           String
+  createdAt       DateTime @default(now())
+  lastInteraction DateTime
+  CustomerActivity CustomerActivity[]
+  CustomerToProperty CustomerToProperty[]
+  ClosedProperty  ClosedProperty[]
+}

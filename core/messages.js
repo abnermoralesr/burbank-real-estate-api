@@ -1,9 +1,10 @@
 const messageTemplate = {
     200: ' successful',
     201: ' created successfully',
-    500: 'Failed to ',
+    401: 'Invalid credentials!',
+    403: 'Invalid token',
     404: ' not found!',
-    401: 'Invalid credentials!'
+    500: 'Failed to ',
 }
 
 export default messageTemplate;

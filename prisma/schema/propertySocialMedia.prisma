@@ -1,0 +1,13 @@
+
+model PropertySocialMedia {
+  id          String   @id @default(auto()) @map("_id") @db.ObjectId
+  propertyId  String   @db.ObjectId
+  youtube     String
+  instagram   String
+  facebook    String
+  twitter     String
+  tiktok      String
+  linkedin    String
+  other       String
+  Property    Property @relation(fields: [propertyId], references: [id])
+}

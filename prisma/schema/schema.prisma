@@ -6,22 +6,10 @@
 
 generator client {
   provider = "prisma-client-js"
+  previewFeatures = ["prismaSchemaFolder"]
 }
 
 datasource db {
   provider = "mongodb"
   url      = env("DATABASE_URL")
-}
-
-
-model User {
-  id String @id @default(auto()) @map("_id") @db.ObjectId
-  branchId String
-  username String @unique
-  email String @unique
-  password String
-  type Int
-  avatar String?
-  status Int? @default(1)
-  createdAt DateTime @default(now())
 }

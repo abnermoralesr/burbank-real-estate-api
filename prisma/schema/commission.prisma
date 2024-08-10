@@ -1,0 +1,8 @@
+
+model Commission {
+  id    String @id @default(auto()) @map("_id") @db.ObjectId
+  name  String
+  type  Int
+  value Float
+  ClosedProperty ClosedProperty[]
+}

@@ -4,20 +4,31 @@
   "main": "app.js",
   "type": "module",
   "scripts": {
-    "dev-vscode": "console-ninja node --env-file .env --watch app.js",
+    "dev": "console-ninja node --env-file .env --watch app.js",
     "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "imports": {
+    "#controllers/*.js": "./controllers/*.js",
+    "#core/*.js": "./core/*.js",
+    "#middleware/*.js": "./middleware/*.js",
+    "#prisma/*.js": "./prisma/*.js",
+    "#routes/*.js": "./routes/*.js",
+    "#resources/*": "./resources/*"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "description": "",
   "dependencies": {
-    "@prisma/client": "^5.17.0",
+    "@prisma/client": "^5.18.0",
     "bcrypt": "^5.1.1",
     "cookie-parser": "^1.4.6",
     "cors": "^2.8.5",
     "express": "^4.19.2",
     "jsonwebtoken": "^9.0.2",
-    "prisma": "^5.17.0"
+    "multer": "^1.4.5-lts.1"
+  },
+  "devDependencies": {
+    "prisma": "^5.18.0"
   }
 }
